@@ -1,17 +1,17 @@
 .container{
     background-color: black;
-    height: 65px;
+    height: 100px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 50px 0 50px;
 }
 
-.logo{
+/* .logo{
     font-size: 25px;
     font-weight: 600;
     color: white;
-}
+} */
 
 .links{
     gap: 40px;

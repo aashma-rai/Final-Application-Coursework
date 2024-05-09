@@ -8,6 +8,12 @@ const Footer = () => {
       <div className={styles.linkSection}>
         <div className={styles.links}>
           <Link href="/">Home</Link>
+          {/* <Link href="/blogs">Blogs</Link> */}
+        </div>
+      </div>
+      <div className={styles.linkSection}>
+        <div className={styles.links}>
+          {/* <Link href="/">Home</Link> */}
           <Link href="/blogs">Blogs</Link>
         </div>
       </div>

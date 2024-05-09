@@ -87,7 +87,7 @@ const AccountPage = () => {
             flexDirection: "column",
             alignItems: "center",
             gap: 2,
-            width: "300px",
+            // width: "500px",
             height: "100%",
             padding: "20px",
             bgcolor: "#1C1678",

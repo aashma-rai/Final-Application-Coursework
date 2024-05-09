@@ -1,6 +1,7 @@
 "use client";
 import {
   Box,
+  Button,
   Card,
   CardActionArea,
   CardContent,
@@ -31,26 +32,31 @@ const Home = () => {
           overflow: "hidden",
         }}
       >
-        <img src="banner/banner2.png" alt="banner" />
+        <img src="banner/home.jpg" alt="banner" />
         <div
           style={{
-            height: "100%",
-            width: "100%",
-            paddingTop: "25%",
             position: "absolute",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
           }}
         >
-          <button
+          <Button
             onClick={handleBlogsButtonClick}
-            className={styles.button}
-            role="button"
-            style={{ cursor: "pointer" }}
+            variant="contained"
+            sx={{
+              backgroundColor: "#1C1678",
+              color: "#fff",
+              borderRadius: "25px",
+              marginTop: "100px",
+              textTransform: "none", // Preserve text case
+              padding: "14px 28px", // Increase padding for better clickability
+              fontSize: "18px", // Increase font size
+              "&:hover": { backgroundColor: "#222" }
+            }}
           >
             View Blogs
-          </button>
+          </Button>
         </div>
       </div>
       <Container
@@ -85,9 +91,9 @@ const Home = () => {
             }}
           >
             <Typography
-              variant="h5"
+              variant="h4"
               mr="4px"
-              sx={{ color: "#333", fontWeight: "bold" }}
+              sx={{ color: "#333", fontWeight: "bold", fontFamily: "Dancing Script"}}
             >
               Popular
             </Typography>
@@ -141,10 +147,14 @@ const Home = () => {
                     sx={{ maxHeight: "83%" }}
                   />
                   <CardContent>
-                    <Typography gutterBottom variant="body1" component="div">
+                    <Typography gutterBottom variant="body1" component="div"
+                    sx={{ fontFamily: "Dancing Script" ,fontSize: 20}} 
+                    >
                       {card.title}
                     </Typography>
-                    <Typography fontSize={12}>{card.author}</Typography>
+                    <Typography fontSize={12}
+                    sx={{ fontFamily: "Dancing Script", fontSize: 14 }}
+                    >{card.author}</Typography>
                   </CardContent>
                 </CardActionArea>
               </Card>
@@ -196,10 +206,17 @@ const Home = () => {
                     alt="green iguana"
                   />
                   <CardContent>
-                    <Typography gutterBottom variant="body1" component="div">
+                    <Typography 
+                    fontSize={20}
+                    sx={{ fontFamily: "Dancing Script" }}
+                    gutterBottom 
+                    variant="body1" component="div">
+                      
                       {card.title}
                     </Typography>
-                    <Typography fontSize={12}>{card.author}</Typography>
+                    <Typography fontSize={12}
+                    sx={{ fontFamily: "Dancing Script" }}
+                    >{card.author}</Typography>
                   </CardContent>
                 </CardActionArea>
               </Card>
@@ -231,7 +248,7 @@ const Home = () => {
             <Typography
               variant="h5"
               mr="4px"
-              sx={{ color: "#333", fontWeight: "bold" }}
+              sx={{ color: "#333", fontWeight: "bold" , fontFamily: "Dancing Script", fontSize: 32}}
             >
               Latest
             </Typography>
@@ -278,10 +295,17 @@ const Home = () => {
                   alt="green iguana"
                 />
                 <CardContent>
-                  <Typography gutterBottom variant="body1" component="div">
+                  <Typography
+                  fontSize={17}
+                  sx={{ fontFamily: "Dancing Script" }}
+                   gutterBottom variant="body1" 
+                   component="div">
                     {card.title}
                   </Typography>
-                  <Typography fontSize={12}>{card.author}</Typography>
+                  <Typography fontSize={13}
+                  sx={{ fontFamily: "Dancing Script" }}
+                  >
+                    {card.author}</Typography>
                 </CardContent>
               </CardActionArea>
             </Card>

@@ -66,11 +66,11 @@ function Navbar() {
   return (
     <AppBar
       position="static"
-      sx={{ bgcolor: "black", padding: "0 25px 0 25px" }}
+      sx={{ bgcolor: "#1C1678", padding: "0 25px 0 25px" }}
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <img src="/favicon.ico" alt="logo" style={{ height: "20px" }} />
+          {/* <img src="/favicon.ico" alt="logo" style={{ height: "20px" }} /> */}
           <Typography
             variant="h6"
             noWrap
@@ -79,14 +79,20 @@ function Navbar() {
             sx={{
               ml: 1.5,
               display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
+              fontFamily: "Zeyada",
               fontWeight: 700,
               letterSpacing: ".3rem",
               color: "inherit",
-              textDecoration: "none",
-            }}
+              // textDecoration: "none",
+
+            }
+            
+          }
+          fontFamily={
+            "Zeyada"
+          }
           >
-            BISLERIUM
+            BISLERIUM BLOG
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -160,7 +166,7 @@ function Navbar() {
                 key={page.name}
                 href={page.path}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, mx: 2, color: "white", display: "block" }}
+                sx={{ my: 2, mx: 2, color: "white", display: "block" , fontFamily: "Roboto"}}
               >
                 {page.name}
               </Button>
@@ -173,7 +179,7 @@ function Navbar() {
                 <Button
                   href="/admin/dashboard"
                   variant="outlined"
-                  sx={{ color: "white", borderColor: "white" }}
+                  sx={{ color: "white", borderColor: "white" ,fontFamily: "Roboto"}}
                 >
                   Admin
                 </Button>
@@ -187,7 +193,8 @@ function Navbar() {
                       bgcolor: "white",
                       borderColor: "white",
                       mr: 3,
-                      "&:hover": { backgroundColor: "lightgrey" },
+                      fontFamily:"Roboto",
+                      "&:hover": { backgroundColor: "pink" },
                     }}
                   >
                     Create
@@ -202,10 +209,10 @@ function Navbar() {
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                       <Avatar
                         sx={{
-                          bgcolor: green[500],
+                          bgcolor: "#BAB9D6",
                           margin: 2,
                         }}
-                        alt="Aditya Shrestha"
+                        alt="Aashma Rai"
                         src="/static/images/avatar/2.jpg"
                       />
                     </IconButton>
