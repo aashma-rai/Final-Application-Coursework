@@ -4,7 +4,6 @@ import {
   Button,
   Container,
   Divider,
-  Hidden,
   Paper,
   TextField,
   Typography,
@@ -12,6 +11,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { blue } from "@mui/material/colors";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -23,6 +23,11 @@ const VisuallyHiddenInput = styled("input")({
   left: 0,
   whiteSpace: "nowrap",
   width: 1,
+});
+
+const StyledTypography = styled(Typography)({
+  borderBottom: "4px solid black",
+  paddingBottom: "4px", // Adjust as needed for spacing
 });
 
 const AddBlogPage = () => {
@@ -61,10 +66,10 @@ const AddBlogPage = () => {
           width: "100%",
         }}
       >
-        <Typography variant="h5" sx={{ color: "#333", fontWeight: "bold" ,fontFamily: "Dancing Script"}}>
-          Create Blog
-        </Typography>
-        <Divider sx={{ width: "88%", marginTop: 2 }} />
+        <StyledTypography variant="h5" sx={{ color: "#333", fontWeight: "bold" ,fontFamily: "Dancing Script"}}>
+          Create Your Own Blog
+        </StyledTypography>
+        {/* <Divider sx={{ width: "88%", marginTop: 2 }} /> */}
       </Box>
       <Box
         display={"flex"}
@@ -109,6 +114,10 @@ const AddBlogPage = () => {
                   backgroundColor: "lightgrey",
                   borderColor: "black",
                 },
+                "& > :first-child": {
+                  fontSize: "1rem", // Adjust font size as needed
+                  fontFamily: "Dancing Script", // Add your font family
+                },
               }}
             >
               {image ? (
@@ -124,7 +133,7 @@ const AddBlogPage = () => {
               ) : (
                 <>
                   <CloudUploadIcon />
-                  <Typography>Click to Upload a Cover Photo</Typography>
+                  <Typography sx= {{fontFamily: "Dancing"}}>Upload a Cover Picture</Typography>
                 </>
               )}
               <VisuallyHiddenInput type="file" onChange={handleImageChange} />
@@ -149,7 +158,7 @@ const AddBlogPage = () => {
             required
             id="outlined-required"
             label="Title"
-            placeholder="Write a short title"
+            placeholder="Write the title of your blog"
             sx={{
               width: "100%",
               maxWidth: "100%",
@@ -182,7 +191,7 @@ const AddBlogPage = () => {
             label="Content"
             multiline
             rows={10}
-            placeholder="Write the blog content here"
+            placeholder="Add content description of your blog"
             variant="outlined"
             sx={{
               width: "100%",
@@ -223,7 +232,7 @@ const AddBlogPage = () => {
           disableElevation
           variant="contained"
           sx={{
-            width: "20%",
+            width: "10%",
             height: "50px",
             bgcolor: "black",
             borderColor: "black",
@@ -231,7 +240,7 @@ const AddBlogPage = () => {
             "&:hover": { backgroundColor: "gray" },
           }}
         >
-          Create
+          Create Blog
         </Button>
       </Box>
     </Container>
