@@ -14,10 +14,9 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
-// import { cardsData } from "../common/mock/mock-data";
 import { useState } from "react";
-import { pink } from "@mui/material/colors";
-import { cardsData } from "../common/mock/mock-data";
+import { cardsData } from "@/app/common/mock/mock-data";
+
 
 const BlogsPage = () => {
   const router = useRouter();

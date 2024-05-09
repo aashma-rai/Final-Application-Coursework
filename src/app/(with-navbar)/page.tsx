@@ -9,9 +9,9 @@ import {
   Container,
   Typography,
 } from "@mui/material";
-import { cardsData } from "./common/mock/mock-data";
 import styles from "./page.module.css";
 import { useRouter } from "next/navigation";
+import { cardsData } from "../common/mock/mock-data";
 // import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 const Home = () => {

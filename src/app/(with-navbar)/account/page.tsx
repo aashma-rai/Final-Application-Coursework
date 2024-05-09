@@ -99,7 +99,7 @@ const AccountPage = () => {
             alt="Aditya Shrestha"
             src="/static/images/avatar/2.jpg"
           ></Avatar>
-          <Chip icon={<Face6Icon />} label="Bislerium Cafe Member"
+          <Chip icon={<Face6Icon />} label="Bislerium Cafe Blog"
           // color="success"
           sx={{
             height: "45px", // Adjust the height as needed
@@ -264,7 +264,7 @@ const AccountPage = () => {
     <Typography
       variant="body1"
       sx={{
-        maxWidth: "calc(40% - 12px)",
+        maxWidth: "calc(40% - 10px)",
         overflow: "hidden",
         textOverflow: "ellipsis",
         whiteSpace: "nowrap",
@@ -276,12 +276,12 @@ const AccountPage = () => {
       {blog.title}
     </Typography>
     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-      <Box sx={{ bgcolor: "green", padding: 1, borderRadius: 5 }}>
+      <Box sx={{ bgcolor: "green", padding: 0.2, borderRadius: 5 }}>
         <IconButton aria-label="edit">
           <EditIcon sx={{ color: "white" }} />
         </IconButton>
       </Box>
-      <Box sx={{ bgcolor: "red", padding: 1, borderRadius: 5 }}>
+      <Box sx={{ bgcolor: "red", padding: 0.2, borderRadius: 5 }}>
         <IconButton aria-label="delete">
           <DeleteIcon sx={{ color: "white" }} />
         </IconButton>
