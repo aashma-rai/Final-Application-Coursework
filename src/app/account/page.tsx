@@ -12,7 +12,7 @@ import {
   Chip,
   Button,
 } from "@mui/material";
-import { green } from "@mui/material/colors";
+import { blue, green } from "@mui/material/colors";
 import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import BadgeIcon from "@mui/icons-material/Badge";
@@ -23,7 +23,7 @@ import Face6Icon from "@mui/icons-material/Face6";
 
 const AccountPage = () => {
   const userBlogs = [
-    { id: 1, title: "Top world favorite travel destinations in 2024." },
+    { id: 1, title: "Top Places in Kathmandu" },
     {
       id: 2,
       title: "Explore the world of dailtdotdev for amazing daily tech news.",
@@ -90,28 +90,41 @@ const AccountPage = () => {
             width: "300px",
             height: "100%",
             padding: "20px",
-            bgcolor: "black",
+            bgcolor: "#1C1678",
             color: "white",
           }}
         >
           <Avatar
-            sx={{ bgcolor: green[500], width: 100, height: 100, margin: 2 }}
+            sx={{ bgcolor: "#BAB9D6", width: 80, height: 80, margin: 2, color: "black"}}
             alt="Aditya Shrestha"
             src="/static/images/avatar/2.jpg"
           ></Avatar>
-          <Chip icon={<Face6Icon />} label="Bislerium Member" color="success" />
-          <Box sx={{ marginBottom: 2 }}>
+          <Chip icon={<Face6Icon />} label="Bislerium Cafe Member"
+          // color="success"
+          sx={{
+            height: "45px", // Adjust the height as needed
+            width: "200px", // Adjust the width as needed
+            fontFamily: "Dancing Script", 
+            fontSize: 15,
+            bgcolor: "#BAB9D6",
+            color: "black",
+            // Change the font family as needed
+          }}
+          />
+          
+          <Box sx={{ marginBottom: 2 ,
+            fontFamily : "Dancing Script"}}>
             <Box
               sx={{ display: "flex", alignItems: "center", gap: 2, margin: 2 }}
             >
-              <PersonIcon />
-              <Typography variant="body2">John Doe</Typography>
+            <PersonIcon sx={{ color: "white" }} />
+              <Typography variant="body2" sx={{ fontFamily: "Dancing Script", fontSize: 16}}>Aashma Rai</Typography>
             </Box>
             <Box
               sx={{ display: "flex", alignItems: "center", gap: 2, margin: 2 }}
             >
-              <BadgeIcon />
-              <Typography variant="body2">JohnDoe619</Typography>
+             <BadgeIcon sx={{ color: "#FFFFFF" }} />
+              <Typography variant="body2" sx={{ fontFamily: "Dancing Script", fontSize: 16}}>Aashma1819</Typography>
             </Box>
             <Box
               sx={{
@@ -122,13 +135,15 @@ const AccountPage = () => {
                 maxWidth: "200px",
               }}
             >
-              <EmailIcon />
+          <EmailIcon sx={{ color: "white" }} />
               <Typography
                 variant="body2"
                 sx={{
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
+                  fontFamily: "Dancing Script",
+                  fontSize: 16,
                 }}
               >
                 johndoe@example.com
@@ -146,7 +161,9 @@ const AccountPage = () => {
                 "&:hover": {
                   color: "gray",
                   borderColor: "gray",
+                  // fontFamily: "Dancing Script",
                 },
+                fontFamily: "Dancing Script"
               }}
             >
               Edit Profile
@@ -175,10 +192,10 @@ const AccountPage = () => {
                 textAlign: "center",
               }}
             >
-              <BorderAllIcon />
-              <Typography variant="h6">My Blogs</Typography>
+              {/* <BorderAllIcon /> */}
+              <Typography variant="h6" sx={{ fontFamily: "Dancing Script", fontSize: 30}}>My Blogs</Typography>
             </Box>
-            <Divider sx={{ width: "100%", marginTop: 1 }} />
+            <Divider sx={{ width: "100%", marginTop: 1}} />
             <Container
               maxWidth="xl"
               sx={{
@@ -190,39 +207,89 @@ const AccountPage = () => {
               }}
             >
               {userBlogs.map((blog) => (
-                <Card
-                  key={blog.id}
-                  sx={{ width: "100%", marginBottom: 2 }}
-                  elevation={0}
-                >
-                  <CardContent
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        maxWidth: "calc(50% - 16px)",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      {blog.title}
-                    </Typography>
-                    <Box>
-                      <IconButton aria-label="edit">
-                        <EditIcon sx={{ color: "black" }} />
-                      </IconButton>
-                      <IconButton aria-label="delete">
-                        <DeleteIcon sx={{ color: "#d90429" }} />
-                      </IconButton>
-                    </Box>
-                  </CardContent>
-                </Card>
+//                 <Card
+//                   key={blog.id}
+//                   sx={{ width: "100%", marginBottom: 2 }}
+//                   elevation={0}
+//                 >
+                  
+//                   <CardContent
+//   sx={{
+//     display: "flex",
+//     alignItems: "center",
+//     justifyContent: "space-between",
+//   }}
+// >
+//   <Typography
+//     variant="body1"
+//     sx={{
+//       maxWidth: "calc(50% - 16px)",
+//       overflow: "hidden",
+//       textOverflow: "ellipsis",
+//       whiteSpace: "nowrap",
+//       fontSize: 20,
+//       fontFamily: "Dancing Script"
+//     }}
+//   >
+//     {blog.title}
+//   </Typography>
+//   <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+//     <Box>
+//       <IconButton aria-label="edit">
+//         <EditIcon sx={{ color: "black" }} />
+//       </IconButton>
+//     </Box>
+//     <Box>
+//       <IconButton aria-label="delete">
+//         <DeleteIcon sx={{ color: "#d90429" }} />
+//       </IconButton>
+//     </Box>
+//   </Box>
+// </CardContent>
+
+//                 </Card>
+
+<Card
+  key={blog.id}
+  sx={{ width: "100%", marginBottom: 2, bgcolor: blue}}
+  elevation={0}
+>
+  <CardContent
+    sx={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+    }}
+  >
+    <Typography
+      variant="body1"
+      sx={{
+        maxWidth: "calc(40% - 12px)",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+        fontSize: 20,
+        // color: pink,
+        fontFamily: "Dancing Script"
+      }}
+    >
+      {blog.title}
+    </Typography>
+    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+      <Box sx={{ bgcolor: "green", padding: 1, borderRadius: 5 }}>
+        <IconButton aria-label="edit">
+          <EditIcon sx={{ color: "white" }} />
+        </IconButton>
+      </Box>
+      <Box sx={{ bgcolor: "red", padding: 1, borderRadius: 5 }}>
+        <IconButton aria-label="delete">
+          <DeleteIcon sx={{ color: "white" }} />
+        </IconButton>
+      </Box>
+    </Box>
+  </CardContent>
+</Card>
+
               ))}
             </Container>
             <Divider sx={{ width: "100%" }} />
