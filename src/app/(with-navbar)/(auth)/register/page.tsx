@@ -1,12 +1,13 @@
 "use client";
 import { CustomError } from "@/app/common/errors/custom.error";
-import { RegisterCommon } from "@/app/common/helper/register.request";
+import { RegisterCommon } from "@/app/common/helper/register-helper/register.request";
 import {
   ReturnProps,
   validateForm,
-} from "@/app/common/helper/register.validation";
+} from "@/app/common/helper/register-helper/register.validation";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import {
+  Alert,
   Box,
   Button,
   Container,
@@ -120,22 +121,11 @@ const RegisterPage = () => {
         }}
       >
         <Typography variant="h2" gutterBottom sx={{ marginBottom: 2 }}>
-          Create an Account
+          {/* Create an Account */}
+          <img src="banner/register.png" alt="banner" style={{ height: 600, width: 600 }} />
         </Typography>
-        <Typography
-          variant="h2"
-          gutterBottom
-          sx={{ marginTop: 2, marginBottom: 2 }}
-        >
-          & Explore the
-        </Typography>
-        <Typography
-          variant="h2"
-          gutterBottom
-          sx={{ marginTop: 2, marginBottom: 2 }}
-        >
-          World of Blogs
-        </Typography>
+
+
       </Box>
       <Box
         sx={{
@@ -166,7 +156,7 @@ const RegisterPage = () => {
               Sign up
             </Typography>
           </Box>
-          {errorMessage}
+
           <TextField
             margin="normal"
             required
@@ -256,7 +246,7 @@ const RegisterPage = () => {
             Create account
           </Button>
           <Typography variant="body2" sx={{ mt: 4 }}>
-            Dont have an account?{" "}
+            Already have an account?{" "}
             <Link style={{ color: "blue" }} href="/login">
               Sign in
             </Link>

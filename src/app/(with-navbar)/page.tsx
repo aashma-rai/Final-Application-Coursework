@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import styles from "./page.module.css";
 import { useRouter } from "next/navigation";
-import { cardsData } from "../common/mock/mock-data";
+// import { cardsData } from "../common/mock/mock-data";
 // import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 const Home = () => {
@@ -121,7 +121,7 @@ const Home = () => {
               height: "467px",
             }}
           >
-            {cardsData.slice(0, 1).map((card, index) => (
+            {/* {cardsData.slice(0, 1).map((card, index) => (
               <Card
               key = {index}
                 sx={{
@@ -158,7 +158,7 @@ const Home = () => {
                   </CardContent>
                 </CardActionArea>
               </Card>
-            ))}
+            ))} */}
           </Box>
           <Box
             sx={{
@@ -168,7 +168,7 @@ const Home = () => {
               width: "45%",
             }}
           >
-            {cardsData.slice(1, 4).map((card, index) => (
+            {/* {cardsData.slice(1, 4).map((card, index) => (
               <Card
               key = {index}
                 sx={{
@@ -220,7 +220,7 @@ const Home = () => {
                   </CardContent>
                 </CardActionArea>
               </Card>
-            ))}
+            ))} */}
           </Box>
         </Box>
         <Box
@@ -269,7 +269,7 @@ const Home = () => {
             marginRight: "25px",
           }}
         >
-          {cardsData.slice(5, 10).map((card, index) => (
+          {/* {cardsData.slice(5, 10).map((card, index) => (
             <Card
               key = {index}
               sx={{
@@ -309,7 +309,7 @@ const Home = () => {
                 </CardContent>
               </CardActionArea>
             </Card>
-          ))}
+          ))} */}
         </Box>
       </Container>
     </>

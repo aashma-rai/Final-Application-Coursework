@@ -14,13 +14,53 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { cardsData } from "@/app/common/mock/mock-data";
+import { useEffect, useState } from "react";
+// import { GetBlogs } from "@/app/common/helper/blog-helper/blog.request";
+import { CustomError } from "@/app/common/errors/custom.error";
+import { GetBlogs } from "@/app/common/helper/blog-helper/blog.request";
 
+type CardData = {
+  title: string;
+  author: string;
+  image: string;
+};
 
 const BlogsPage = () => {
+  const [cardsData, setCardsData] = useState([]);
+  const [pageNumber, setPageNumber] = useState<number>(1);
+  const [totalCount, setTotalCount] = useState<number>(0);
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await GetBlogs({
+          page: `${pageNumber}`,
+          shortBy: null,
+        });
+
+        setCardsData(response.Data.data);
+        setPageNumber(response.Data["pageNumber"]);
+        setTotalCount(response.Data.totalCount);
+      } catch (error) {
+        if (error instanceof CustomError) {
+          console.log("This is Error in fetch: ", error._error);
+          if (error._error.Message instanceof Array) {
+            //This is not required since every thing is handle by frontend
+          }
+          setErrorMessage(error._error.Message);
+          console.log("This is Error: ", error._error.Message);
+        }
+      }
+    }
+
+    fetchData();
+  }, [pageNumber]);
+
   const router = useRouter();
-const handleAllFilter = () => {
+
+  const handleAllFilter = () => {
     router.push("/blogs");
   };
 
@@ -32,23 +72,11 @@ const handleAllFilter = () => {
     router.push("/blogs");
   };
 
-  const cardsPerPage = 15;
-  const totalCards = cardsData.length;
-  const totalPages = Math.ceil(totalCards / cardsPerPage);
-
-  const [currentPage, setCurrentPage] = useState(1);
-
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
-    page: number
+    value: number
   ) => {
-    setCurrentPage(page);
-  };
-
-  const getPageCards = () => {
-    const startIndex = (currentPage - 1) * cardsPerPage;
-    const endIndex = startIndex + cardsPerPage;
-    return cardsData.slice(startIndex, endIndex);
+    setPageNumber(value);
   };
 
   return (
@@ -71,19 +99,12 @@ const handleAllFilter = () => {
           marginLeft: "25px",
           marginRight: "25px",
           paddingLeft: "63px",
-          // backgroundColor: "#000", // Set background color to black
-          // padding: "20px", // Add padding for better spacing
-          // borderRadius: "8px", // Add border radius for rounded corners
         }}
       >
         <Typography
           variant="h5"
           mr="35px"
-          sx={{ color: "#333", 
-          fontWeight: "bold",
-          fontSize:40,
-          fontFamily: "Dancing Script",
-        }}
+          sx={{ color: "#333", fontWeight: "bold" }}
         >
           Explore Blogs
         </Typography>
@@ -91,38 +112,22 @@ const handleAllFilter = () => {
           <Chip
             label="All"
             onClick={handleAllFilter}
-            sx={{ borderRadius: "4px",
-            backgroundColor: "#000", 
-            fontSize:18,
-            fontFamily:"EB Garamond",// Set background color to black
-              color: "#fff", // Set text color to white 
-            }}
+            sx={{ borderRadius: "4px" }}
           />
           <Chip
             label="Popular"
             variant="outlined"
             onClick={handlePopularFilter}
-            sx={{ borderRadius: "4px" ,
-            fontFamily:"EB Garamond",
-            backgroundColor: "#000",
-            fontSize:18, // Set background color to black
-              color: "#fff", // Set text color to white
-            }}
+            sx={{ borderRadius: "4px" }}
           />
           <Chip
             label="Latest"
             variant="outlined"
             onClick={handleLatestFilter}
-            sx={{ borderRadius: "4px" ,
-            fontFamily:"EB Garamond",
-            fontSize:18,
-            backgroundColor: "#000", // Set background color to black
-              color: "#fff", // Set text color to white
-            }}
+            sx={{ borderRadius: "4px" }}
           />
         </Stack>
       </Box>
-      
       <Box
         sx={{
           display: "flex",
@@ -134,41 +139,52 @@ const handleAllFilter = () => {
           marginRight: "25px",
         }}
       >
-        {getPageCards().map((card, index) => (
-          <Card
-          key = {index}
-            sx={{
-              bgcolor: "#1a1a1a",
-              color: "white",
-              maxHeight: 300,
-              maxWidth: 240,
-              borderRadius: "6%",
-              "&:hover": {
-                transform: "scale(1.02)",
-                bgcolor: "#f2f2f2",
-                color: "black",
-              },
-              transition: "transform 0.5s ease-in-out",
-            }}
-            elevation={0}
-          >
-            <CardActionArea disableRipple>
-              <CardMedia
-                component="img"
-                height="200"
-                image={card.image}
-                alt="green iguana"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="body1" 
-                component="div" sx = {{fontFamily: "Dancing Script"}}>
-                  {card.title}
-                </Typography>
-                <Typography fontSize={12} sx = {{fontFamily: "Dancing Script"}}>{card.author}</Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        ))}
+        {cardsData !== null &&
+          cardsData.map((card, index) => (
+            <Card
+              sx={{
+                bgcolor: "#1a1a1a",
+                color: "white",
+                maxHeight: 300,
+                width: 240,
+                maxWidth: "100%",
+                borderRadius: 1,
+                "&:hover": {
+                  transform: "scale(1.02)",
+                  bgcolor: "#f2f2f2",
+                  color: "black",
+                },
+                transition: "all 0.2s ease-in-out",
+              }}
+              elevation={0}
+            >
+              <CardActionArea disableRipple href={`/blogs/${card["id"]}`}>
+                <CardMedia
+                  component="img"
+                  height="200"
+                  image={card["imgUrl"]}
+                  alt="green iguana"
+                />
+                <CardContent>
+                  <Typography
+                    gutterBottom
+                    variant="body1"
+                    component="div"
+                    sx={{
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {card["title"]}
+                  </Typography>
+                  <Typography fontSize={12}>
+                    {card["postUser"]["name"]}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          ))}
       </Box>
       <Box
         sx={{
@@ -181,20 +197,15 @@ const handleAllFilter = () => {
         }}
       >
         <Pagination
-          count={totalPages}
-          page={currentPage}
+          count={Math.ceil(totalCount / 20)}
+          page={pageNumber}
           onChange={handlePageChange}
           variant="outlined"
           shape="rounded"
-          sx={{
-            '& .MuiPaginationItem-root': {
-              color: 'black',
-              '&.Mui-selected': {
-                backgroundColor: '#2196f3',
-              },},}}
         />
       </Box>
     </Container>
   );
 };
+
 export default BlogsPage;

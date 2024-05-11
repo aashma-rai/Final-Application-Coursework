@@ -1,10 +1,10 @@
 "use client";
 import { CustomError } from "@/app/common/errors/custom.error";
-import { AdminLogin } from "@/app/common/helper/admin.login.request";
+import { AdminLogin } from "@/app/common/helper/admin-helper/admin.login.request";
 import {
   ReturnProps,
   validateForm,
-} from "@/app/common/helper/login.validation";
+} from "@/app/common/helper/login-helper/login.validation";
 import {
   Box,
   Button,
@@ -67,7 +67,7 @@ const LoginPage = () => {
         Cookies.set("Token", response.Data);
 
         // Redirect to Home page
-        router.push("/admin/dashboard");
+        router.push("/admin/pages/dashboard");
       }
     } catch (error) {
       if (error instanceof CustomError) {
@@ -87,6 +87,9 @@ const LoginPage = () => {
       maxWidth="xl"
       sx={{
         alignItems: "center",
+        justifyContent: "center",
+        height: "700px",
+        overflow: "hidden",
       }}
     >
       <Box
@@ -95,6 +98,7 @@ const LoginPage = () => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
+          marginTop: "150px",
           textAlign: "center",
           paddingRight: 0,
         }}

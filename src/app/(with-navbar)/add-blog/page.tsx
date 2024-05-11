@@ -10,8 +10,15 @@ import {
   styled,
 } from "@mui/material";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { blue } from "@mui/material/colors";
+import {
+  ReturnProps,
+  validateForm,
+} from "@/app/common/helper/blog-helper/blog.validation";
+import { CustomError } from "@/app/common/errors/custom.error";
+import { Login } from "@mui/icons-material";
+import { CreateBlog } from "@/app/common/helper/blog-helper/blog.request";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -25,25 +32,95 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-const StyledTypography = styled(Typography)({
-  borderBottom: "4px solid black",
-  paddingBottom: "4px", // Adjust as needed for spacing
-});
-
 const AddBlogPage = () => {
-  const [image, setImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File>();
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files && event.target.files[0];
-    if (file) {
-      // Check if file size is less than or equal to 3 MB
-      if (file.size <= 3 * 1024 * 1024) {
-        setImage(URL.createObjectURL(file));
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  const [errorMessage, setErrorMessage] = useState("");
+  const [titleEmptyError, setTitleEmptyError] = useState("");
+  const [contentEmptyError, setContentEmptyError] = useState("");
+  const [imgEmptyError, setImgEmptyError] = useState("");
+
+  const [isTitleEmpty, setIsTitleEmpty] = useState(false);
+  const [isContentEmpty, setIsContentEmpty] = useState(false);
+  const [isImgEmpty, setIsImgEmpty] = useState(false);
+
+  const router = useRouter();
+
+  const handleUploadImage = async () => {
+    try {
+      if (!selectedFile) return;
+      const formData = new FormData();
+      formData.append("myImage", selectedFile);
+
+      const response = await fetch("/api/upload-image", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        return data;
       } else {
-        alert("File size exceeds 3 MB limit.");
+        throw new Error("Failed to upload image");
       }
+    } catch (error) {
+      console.error(error);
     }
   };
+
+  async function HandleCreateBlog() {
+    // Resetting error states
+    setErrorMessage("");
+    setIsTitleEmpty(false);
+    setIsContentEmpty(false);
+    setIsImgEmpty(false);
+
+    try {
+      const validatedForm: ReturnProps = validateForm(
+        title,
+        content,
+        selectedImage
+      );
+      if (validatedForm.isEmpty) {
+        if (validatedForm.forTitle) {
+          setIsTitleEmpty(true);
+          setTitleEmptyError(validatedForm.forTitle);
+        }
+        if (validatedForm.forContent) {
+          setIsContentEmpty(true);
+          setContentEmptyError(validatedForm.forContent);
+        }
+        if (validatedForm.forImgUrl) {
+          setIsImgEmpty(true);
+          setImgEmptyError(validatedForm.forImgUrl);
+        }
+      } else {
+        const imgName = await handleUploadImage();
+        const response = await CreateBlog({
+          title,
+          content,
+          imgUrl: `blog-cover-photos/${imgName}`,
+        });
+
+        console.log("This is Response: ", response.Data);
+        // Redirect to Blogs Page
+        router.push("/blogs");
+      }
+    } catch (error) {
+      if (error instanceof CustomError) {
+        console.log("This is Error in fetch: ", error._error);
+        if (error._error.Message instanceof Array) {
+          //This is not required since every thing is handle by frontend
+        }
+        setErrorMessage(error._error.Message);
+        console.log("This is Error: ", error._error.Message);
+      }
+    }
+  }
 
   return (
     <Container
@@ -66,10 +143,10 @@ const AddBlogPage = () => {
           width: "100%",
         }}
       >
-        <StyledTypography variant="h5" sx={{ color: "#333", fontWeight: "bold" ,fontFamily: "Dancing Script"}}>
-          Create Your Own Blog
-        </StyledTypography>
-        {/* <Divider sx={{ width: "88%", marginTop: 2 }} /> */}
+        <Typography variant="h5" sx={{ color: "#333", fontWeight: "bold" }}>
+          Create Blog
+        </Typography>
+        <Divider sx={{ width: "88%", marginTop: 2 }} />
       </Box>
       <Box
         display={"flex"}
@@ -77,7 +154,7 @@ const AddBlogPage = () => {
         justifyContent={"space-between"}
         alignItems={"center"}
         width={"100%"}
-        height={"360px"}
+        minHeight={"360px"}
       >
         <Box
           display={"flex"}
@@ -88,7 +165,7 @@ const AddBlogPage = () => {
           paddingLeft={"63px"}
           paddingRight={"25px"}
           width={"50%"}
-          height={"100%"}
+          height={"342px"}
         >
           <Paper
             elevation={0}
@@ -114,15 +191,11 @@ const AddBlogPage = () => {
                   backgroundColor: "lightgrey",
                   borderColor: "black",
                 },
-                "& > :first-child": {
-                  fontSize: "1rem", // Adjust font size as needed
-                  fontFamily: "Dancing Script", // Add your font family
-                },
               }}
             >
-              {image ? (
+              {selectedImage ? (
                 <img
-                  src={image}
+                  src={selectedImage}
                   alt="Uploaded"
                   style={{
                     width: "100%",
@@ -133,10 +206,20 @@ const AddBlogPage = () => {
               ) : (
                 <>
                   <CloudUploadIcon />
-                  <Typography sx= {{fontFamily: "Dancing"}}>Upload a Cover Picture</Typography>
+                  <Typography>Click to Upload a Cover Photo</Typography>
                 </>
               )}
-              <VisuallyHiddenInput type="file" onChange={handleImageChange} />
+              <input
+                type="file"
+                hidden
+                onChange={({ target }) => {
+                  if (target.files) {
+                    const file = target.files[0];
+                    setSelectedImage(URL.createObjectURL(file));
+                    setSelectedFile(file);
+                  }
+                }}
+              />
             </Button>
           </Paper>
         </Box>
@@ -158,12 +241,50 @@ const AddBlogPage = () => {
             required
             id="outlined-required"
             label="Title"
-            placeholder="Write the title of your blog"
+            placeholder="Write a short title"
             sx={{
               width: "100%",
               maxWidth: "100%",
-              backgroundColor: "#fff",
-              fontFamily: "Dancing Script",
+              "& .MuiInputLabel-root": {
+                color: "grey",
+              },
+              "& .MuiInputLabel-root.Mui-focused": {
+                fontSize: "20px",
+                color: "black",
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "black",
+                },
+                "&:hover fieldset": {
+                  borderColor: "#black",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "Black",
+                  fontSize: "20px",
+                },
+              },
+            }}
+            error={isTitleEmpty}
+            helperText={isTitleEmpty ? titleEmptyError : ""}
+            onChange={(e) => {
+              setTitle(e.target.value);
+              if (e.target.value.trim() !== "") {
+                setTitleEmptyError("");
+              }
+            }}
+          />
+          <TextField
+            required={true}
+            id="outlined-multiline-static"
+            label="Content"
+            multiline
+            rows={10}
+            placeholder="Write the blog content here"
+            variant="outlined"
+            sx={{
+              width: "100%",
+              maxWidth: "100%",
               "& .MuiInputLabel-root": {
                 color: "grey", // Change the label color
               },
@@ -184,38 +305,13 @@ const AddBlogPage = () => {
                 },
               },
             }}
-          />
-          <TextField
-            required={true}
-            id="outlined-multiline-static"
-            label="Content"
-            multiline
-            rows={10}
-            placeholder="Add content description of your blog"
-            variant="outlined"
-            sx={{
-              width: "100%",
-              maxWidth: "100%",
-              backgroundColor: "#fff",
-              "& .MuiInputLabel-root": {
-                color: "grey", // Change the label color
-              },
-              "& .MuiInputLabel-root.Mui-focused": {
-                fontSize: "20px", // Change the font size when focused
-                color: "black",
-              },
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "black", // Change the border color
-                },
-                "&:hover fieldset": {
-                  borderColor: "#black", // Change the border color on hover
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "Black", // Change the border color when focused
-                  fontSize: "20px",
-                },
-              },
+            error={isContentEmpty}
+            helperText={isContentEmpty ? contentEmptyError : ""}
+            onChange={(e) => {
+              setContent(e.target.value);
+              if (e.target.value.trim() !== "") {
+                setContentEmptyError("");
+              }
             }}
           />
         </Box>
@@ -232,15 +328,15 @@ const AddBlogPage = () => {
           disableElevation
           variant="contained"
           sx={{
-            width: "10%",
+            width: "20%",
             height: "50px",
             bgcolor: "black",
             borderColor: "black",
-            fontFamily: "Dancing Script",
             "&:hover": { backgroundColor: "gray" },
           }}
+          onClick={HandleCreateBlog}
         >
-          Create Blog
+          Create
         </Button>
       </Box>
     </Container>

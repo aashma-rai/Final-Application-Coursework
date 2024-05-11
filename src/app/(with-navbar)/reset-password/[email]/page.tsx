@@ -1,36 +1,33 @@
 "use client";
-import { CustomError } from "@/app/common/errors/custom.error";
-import { AdminLogin } from "@/app/common/helper/admin-helper/admin.login.request";
+import {
+  Container,
+  Box,
+  Paper,
+  Typography,
+  TextField,
+  Button,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
+import React, { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import {
   ReturnProps,
   validateForm,
-} from "@/app/common/helper/login-helper/login.validation";
-import {
-  Box,
-  Button,
-  Container,
-  IconButton,
-  InputAdornment,
-  Paper,
-  TextField,
-  Typography,
-  colors,
-} from "@mui/material";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import Cookies from "js-cookie";
+} from "@/app/common/helper/reset-password-helper/reset-password.validation";
+import { ResetPassword } from "@/app/common/helper/reset-password-helper/reset-password.request";
+import { CustomError } from "@/app/common/errors/custom.error";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 
-const LoginPage = () => {
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+const resetPasswordPage = () => {
+  const currentPath = usePathname(); // getting the current path URL
+  const parts = currentPath?.split("/"); // Split the path by slashes
+  const email = parts!![2]; // Extract the part after the second slash
 
-  const [errorMessage, setErrorMessage] = useState("");
-  const [userNameEmptyError, setUserNameEmptyError] = useState("");
+  const [resetPassword, setPassword] = useState("");
+
   const [passwordEmptyError, setPasswordEmptyError] = useState("");
 
-  const [isUserNameEmpty, setIsUserNameEmpty] = useState(false);
   const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
@@ -38,36 +35,40 @@ const LoginPage = () => {
     setShowPassword(!showPassword);
   };
 
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [successMessage, setSuccessMessage] = useState("");
+
   const router = useRouter();
 
-  async function HandleLogin() {
+  async function HandleResetPassword() {
     // Resetting error states
     setErrorMessage("");
-    setIsUserNameEmpty(false);
     setIsPasswordEmpty(false);
 
     try {
-      const validatedForm: ReturnProps = validateForm(userName, null, password);
+      const validatedForm: ReturnProps = validateForm(resetPassword);
       if (validatedForm.isEmpty) {
-        if (validatedForm.forUserName && validatedForm.forEmail) {
-          setIsUserNameEmpty(true);
-          setUserNameEmptyError(validatedForm.forUserName);
-        }
         if (validatedForm.forPassword) {
           setIsPasswordEmpty(true);
           setPasswordEmptyError(validatedForm.forPassword);
         }
       } else {
-        const response = await AdminLogin({
-          userName,
-          password,
-        });
-        console.log("This is Response: ", response.Data);
-        // Save to cookie.
-        Cookies.set("Token", response.Data);
+        var response;
+        response = await ResetPassword(
+          {
+            email,
+          },
+          {
+            resetPassword,
+          }
+        );
 
-        // Redirect to Home page
-        router.push("/admin/pages/dashboard");
+        setSuccessMessage(response.Message);
+        console.log("This is Response: ", response);
+
+        // Redirect to Login Page
+        router.push("/login");
       }
     } catch (error) {
       if (error instanceof CustomError) {
@@ -83,13 +84,13 @@ const LoginPage = () => {
 
   return (
     <Container
-      component="main"
-      maxWidth="xl"
       sx={{
-        alignItems: "center",
+        height: "100%",
+        width: "100%",
+        margin: "auto",
+        display: "flex",
         justifyContent: "center",
-        height: "700px",
-        overflow: "hidden",
+        alignItems: "center",
       }}
     >
       <Box
@@ -119,25 +120,9 @@ const LoginPage = () => {
             }}
           >
             <Typography variant="h4" sx={{ mb: 2 }}>
-              Admin Sign In
+              Reset Password
             </Typography>
           </Box>
-          {errorMessage}
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            variant="standard"
-            label="Username"
-            error={isUserNameEmpty}
-            helperText={isUserNameEmpty ? userNameEmptyError : ""}
-            onChange={(e) => {
-              setUserName(e.target.value);
-              if (e.target.value.trim() !== "") {
-                setUserNameEmptyError("");
-              }
-            }}
-          />
           <TextField
             margin="normal"
             required
@@ -168,18 +153,18 @@ const LoginPage = () => {
             }}
           />
           <Button
+            onClick={HandleResetPassword}
             type="submit"
             disableElevation
             fullWidth
             variant="contained"
-            onClick={HandleLogin}
             sx={{
               mt: 6,
               backgroundColor: "black",
               "&:hover": { backgroundColor: "#303030" },
             }}
           >
-            Sign In
+            Reset
           </Button>
         </Paper>
       </Box>
@@ -187,4 +172,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default resetPasswordPage;

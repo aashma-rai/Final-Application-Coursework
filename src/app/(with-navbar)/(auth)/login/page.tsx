@@ -1,10 +1,11 @@
 "use client";
 import { CustomError } from "@/app/common/errors/custom.error";
-import { Login } from "@/app/common/helper/login.request";
+import { Login } from "@/app/common/helper/login-helper/login.request";
 import {
   ReturnProps,
   validateForm,
-} from "@/app/common/helper/login.validation";
+} 
+from "@/app/common/helper/login-helper/login.validation";
 import {
   Box,
   Button,
@@ -120,15 +121,10 @@ const LoginPage = () => {
         }}
       >
         <Typography variant="h2" gutterBottom sx={{ marginBottom: 2 }}>
-          Sign in to your
+          {/* Sign in to your */}
+          <img src="banner/login.png" alt="banner" style={{height: 600, width:600}}/>
         </Typography>
-        <Typography
-          variant="h2"
-          gutterBottom
-          sx={{ marginTop: 2, marginBottom: 2 }}
-        >
-          Bislerium Account
-        </Typography>
+       
       </Box>
       <Box
         sx={{
@@ -231,7 +227,7 @@ const LoginPage = () => {
           <Typography variant="body2" sx={{ mt: 4 }}>
             Dont have an account?{" "}
             <Link style={{ color: "blue" }} href="/register">
-              Register
+              Sign Up
             </Link>
           </Typography>
         </Paper>

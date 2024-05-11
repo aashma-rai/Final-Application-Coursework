@@ -33,7 +33,7 @@ const settings = [
   },
   {
     name: "Logout",
-    path: "#",
+    path: "/login",
   },
 ];
 
@@ -212,8 +212,8 @@ function Navbar() {
                           bgcolor: "#BAB9D6",
                           margin: 2,
                         }}
-                        alt="Aashma Rai"
-                        src="/static/images/avatar/2.jpg"
+                        alt="TEST"
+                      
                       />
                     </IconButton>
                   </Tooltip>
